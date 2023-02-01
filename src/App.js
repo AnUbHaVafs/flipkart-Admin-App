@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import Home from "./containers/Home";
+import Signin from "./containers/Signin";
+import Signup from "./containers/Signup";
+import PrivateRoute from "./components/HOC/PrivateRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCategory, getInitialData, isUserLoggedIn } from "./actions";
+import Products from "./containers/Products";
+import Orders from "./containers/Orders";
+import { Category } from "./containers/Category";
 
-function App() {
+export default function App() {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (!auth.authenticate) {
+      dispatch(isUserLoggedIn());
+    }
+    dispatch(getInitialData());
+    // dispatch(getAllCategory());
+
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+
+      <PrivateRoute path='/' exact component={Home} />
+      <PrivateRoute path='/category' exact component={Category} />
+      <PrivateRoute path='/products' exact component={Products} />
+      <PrivateRoute path='/orders' component={Orders} />
+
+      <Route path='/signup' component={Signup} />
+      <Route path='/signin' component={Signin} />
+
+
+
     </div>
   );
 }
 
-export default App;
+
