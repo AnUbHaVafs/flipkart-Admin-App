@@ -83,7 +83,7 @@ export default function Products() {
                                     <td>{product.name}</td>
                                     <td>{product.price}</td>
                                     <td>{product.quantity}</td>
-                                    <td>--</td>
+                                    <td>{product.category}</td>
                                 </tr>
                             ) : null
                     }
@@ -199,7 +199,7 @@ export default function Products() {
                     </Col>
                     <Col md="6">
                         <label className="key">Category</label>
-                        <p className="value">--</p>
+                        <p className="value">{productDetails.category} </p>
                     </Col>
                 </Row>
                 <Row>
